@@ -1,4 +1,5 @@
 import './App.css'
+import SignUp from './Components/SignUp'
 
 function App() {
 
@@ -6,7 +7,8 @@ function App() {
   <>
 
   <div className='text-red-700'>
-        <h1>Hello .. </h1>
+   <SignUp/>
+
   </div>
   
   </>
