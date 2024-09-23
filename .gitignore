@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 src/utils/firebase.js
+src/functions/index.js
+.firebaserc
+.npmrc
+firebase.json
+functions/index.js
