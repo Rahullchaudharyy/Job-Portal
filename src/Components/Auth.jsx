@@ -13,7 +13,7 @@ const SignIn = () => {
     name: '',
     email: '',
     password: '',
-    skills: '',
+    JobPrefrence: '',
     location: '',
     qualification: '',
   });
@@ -50,10 +50,16 @@ const SignIn = () => {
     return () => unsubscribe();
   }, [auth]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+
+const handleInputChange = (event) => {
+  const inputName = event.target.name;
+  const inputValue = event.target.value;
+  
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    [inputName]: inputValue 
+  }));
+};
 
   const handleLogin = async () => {
     setLoading(true);
@@ -128,7 +134,7 @@ const SignIn = () => {
         </button>
         {isSignUp && (
           <>
-            <input required={true} type="text" name="skills" placeholder="Skills" value={formData.skills} onChange={handleInputChange} className="w-full p-2 mb-4 border border-gray-300 rounded-lg" />
+            <input required={true} type="text" name="JobPrefrence" placeholder="JobPrefrence" value={formData.JobPrefrence} onChange={handleInputChange} className="w-full p-2 mb-4 border border-gray-300 rounded-lg" />
             <input required={true} type="text" name="location" placeholder="Location" value={formData.location} onChange={handleInputChange} className="w-full p-2 mb-4 border border-gray-300 rounded-lg" />
             <input required={true} type="text" name="qualification" placeholder="Qualification" value={formData.qualification} onChange={handleInputChange} className="w-full p-2 mb-4 border border-gray-300 rounded-lg" />
           </>

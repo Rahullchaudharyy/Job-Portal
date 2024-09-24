@@ -28,3 +28,4 @@ src/functions/index.js
 .npmrc
 firebase.json
 functions/index.js
+src/utils/api.js

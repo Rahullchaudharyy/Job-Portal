@@ -4,8 +4,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import JobFilterForm from './JobFilterForm'
+import { useSelector } from 'react-redux';
 
 const Home = () => {
+  const formState = useSelector((state) => state.config.formState);
   const navigate = useNavigate()
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -20,8 +23,9 @@ const Home = () => {
     return () => unsubscribe();
   }, [auth]);
   return (
-    <div>Home
+    <div>
         <Navbar/>
+        {formState && <JobFilterForm/>}
     </div>
   )
 }
