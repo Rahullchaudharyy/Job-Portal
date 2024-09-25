@@ -8,6 +8,7 @@ import Profile from "./Components/Profile.jsx";
 import { Provider } from "react-redux";
 import store from "./utils/store";
 import Auth from './Components/Auth.jsx'
+import Jobs from "./Components/Jobs.jsx";
 
 const Router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const Router = createBrowserRouter([
   {
     path: "/main",
     element: <App />,
+  },
+  {
+     path:'/jobs/:id',
+     element:<Jobs/>
   },
 ]);
 

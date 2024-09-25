@@ -30,10 +30,12 @@ const Navbar = () => {
 
     dispatch(changeState())
   }
-  // handleLogout()
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+
+
       if (user) {
+        
         console.log("User is loggedin ");
       } else {
         console.log("User is not logged in");
@@ -48,17 +50,14 @@ const Navbar = () => {
   }
 
   return (
-    <div className="h-[60px] fixed w-full bg-gradient-to-r from-gray-800 to-gray-600 text-white shadow-lg">
-    {/* Navbar for Desktop */}
+    <div className="h-[60px] z-[99] fixed w-full bg-gradient-to-r from-gray-800 to-gray-600 text-white shadow-lg">
     <div className="hidden md:flex justify-between h-full items-center px-6">
-      {/* Left: Logo */}
       <div className="flex items-center space-x-4">
         <h2 className="text-2xl font-semibold tracking-wide cursor-pointer hover:text-gray-300 transition">Logo</h2>
       </div>
   
-      {/* Center: Links & Search */}
       <div className="flex justify-center items-center space-x-8">
-        <h2 className="cursor-pointer hover:text-gray-300 transition">Home</h2>
+        <Link to={'/main'} className="cursor-pointer hover:text-gray-300 transition">Recomanded Jobs</Link>
         <Link to={'/home'} onClick={handleFormState} className="cursor-pointer hover:text-gray-300 transition">Filter</Link>
         <input
           type="text"
@@ -67,13 +66,12 @@ const Navbar = () => {
         />
       </div>
   
-      {/* Right: Profile Dropdown */}
       <div className="relative">
         <h1 onClick={HandleDropDownProfile} className="cursor-pointer hover:text-gray-300 transition">Profile</h1>
         {ProfileDropDown && (
           <div className="absolute top-full right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50">
             <nav className="grid gap-y-2 p-2 text-black">
-              <button className="text-left hover:bg-gray-100 p-2 rounded-md">Your Profile</button>
+              <Link to={'/profile'} className="text-left hover:bg-gray-100 p-2 rounded-md">Your Profile</Link>
               <button className="text-left hover:bg-gray-100 p-2 rounded-md">Settings</button>
               <button onClick={handleLogout} className="text-left hover:bg-gray-100 p-2 rounded-md">Log Out</button>
             </nav>
@@ -82,12 +80,14 @@ const Navbar = () => {
       </div>
     </div>
   
-    {/* Navbar for Mobile */}
-    <div className="flex md:hidden justify-between h-full items-center px-4">
-      {/* Left: Logo */}
+    <div className="flex md:hidden justify-evenly h-full items-center px-4">
       <h2 className="text-xl font-semibold tracking-wide cursor-pointer">Logo</h2>
-  
-      {/* Right: Hamburger Menu */}
+      <input
+          type="text"
+          placeholder="Search Jobs"
+          className="rounded-full p-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button className="bg-white text-black p-1 rounded-md">Search</button>
       <div className="relative">
         <button onClick={HandleDropDownProfile} className="focus:outline-none">
           <svg
@@ -104,9 +104,8 @@ const Navbar = () => {
           <div className="absolute top-full md:hidden right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-[99]">
             <nav className="grid gap-y-2 p-2 text-black">
             <Link to={'/home'} onClick={handleFormState} className="cursor-pointer p-2 hover:text-gray-300 transition">Filter</Link>
-              <button className="text-left hover:bg-gray-100 p-2 rounded-md">Home</button>
-              <button className="text-left hover:bg-gray-100 p-2 rounded-md">Search Jobs</button>
-              <button className="text-left hover:bg-gray-100 p-2 rounded-md">Your Profile</button>
+              <Link to={'/profile'} className="text-left hover:bg-gray-100 p-2 rounded-md">Your Profile</Link>
+              <Link to={'/main'} className="text-left hover:bg-gray-100 p-2 rounded-md">Recomended</Link>
               <button onClick={handleLogout} className="text-left hover:bg-gray-100 p-2 rounded-md">Log Out</button>
             </nav>
           </div>

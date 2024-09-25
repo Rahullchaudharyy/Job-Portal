@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeState, resetFilters, updateFilters } from '../utils/configSlice';
 import { fetchJobs } from '../utils/api.js';
+import { resetJobs, setFilteredJobs } from '../utils/Filter&SearchSlice.js';
+
 const JobFilterForm = () => {
   const dispatch = useDispatch();
 
-  // Manage form state manually
   const [formData, setFormData] = useState({
     jobTitle: '',
     company: '',
@@ -13,56 +14,63 @@ const JobFilterForm = () => {
     jobType: '',
   });
 
-const handleChange = (e) => {
-  const { name, value } = e.target; 
-  setFormData((prevData) => ({
-    ...prevData, 
-    [name]: value, 
-  }));
-};
-
-const handleSubmit = async (e) => {
-  e.preventDefault(); 
-  dispatch(updateFilters(formData)); 
-  dispatch(changeState());
-
-  try {
-    const jobData = await fetchJobs(formData.jobTitle + " " + formData.location + " " + formData.jobType);
-    
-    if (jobData.data && jobData.data.length > 0) {
-      jobData.data.forEach((job) => {
-        const JobTitle = job.job_title || "N/A";
-        const Company_Name = job.employer_name || "N/A";
-        const JobDescription = job.job_description || "N/A";
-        const Location = job.job_country || "N/A";
-        const Salary = job.job_max_salary || "N/A";
-        const Remote_Q = job.job_is_remote ? "Yes" : "No";
-        const Apply_Link = job.job_apply_link || "N/A";
-      });
-    } else {
-      console.log("No jobs found.");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(changeState());
+    dispatch(updateFilters(formData));
+    dispatch(resetJobs())
+  
+    try {
+      const jobData = await fetchJobs(formData.jobTitle + " " + formData.location + " " + formData.jobType);
+  
+      console.log("Fetched job data:", jobData); 
+  
+      if (jobData.data && jobData.data.length > 0) {
+        dispatch(resetFilters()); 
+        console.log("Jobs being dispatched:", jobData.data);
+        dispatch(setFilteredJobs(jobData.data)); 
+  
+        jobData.data.forEach((job) => {
+          const JobTitle = job.job_title || "N/A";
+          const Company_Name = job.employer_name || "N/A";
+          const JobDescription = job.job_description || "N/A";
+          const Location = job.job_country || "N/A";
+          const Salary = job.job_max_salary || "N/A";
+          const Remote_Q = job.job_is_remote ? "Yes" : "No";
+          const Apply_Link = job.job_apply_link || "N/A";
+  
+          console.log({ JobTitle, Company_Name, JobDescription, Location, Salary, Remote_Q, Apply_Link });
+        });
+      } else {
+        console.log("No jobs found.");
+        dispatch(resetFilters());
+      }
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
     }
-  } catch (error) {
-    console.error("Error fetching jobs:", error);
-  }
-};
+  };
+  
 
-
-const resetForm = (e)=>{
-  e.preventDefault(); 
-  setFormData({
-    jobTitle: '',
-    company: '',
-    location: '',
-    jobType: '',
-  })
-  dispatch(resetFilters())
-}
-
-
+  const resetForm = (e) => {
+    e.preventDefault();
+    setFormData({
+      jobTitle: '',
+      company: '',
+      location: '',
+      jobType: '',
+    });
+    dispatch(resetFilters());
+  };
 
   return (
-    <div className="job-filter-form h-auto w-auto absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-100 p-6 rounded-lg shadow-lg">
+    <div className="job-filter-form h-auto w-auto   bg-gray-100 p-6 rounded-lg shadow-lg z-[99]">
       <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">Filter Jobs</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -81,9 +89,8 @@ const resetForm = (e)=>{
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="company" className="text-gray-600">Company(Optional)</label>
+          <label htmlFor="company" className="text-gray-600">Company (Optional)</label>
           <input
-
             type="text"
             id="company"
             name="company"
@@ -135,7 +142,8 @@ const resetForm = (e)=>{
           onClick={resetForm}
           className="w-full p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
         >
-Reset         </button>
+          Reset
+        </button>
       </form>
     </div>
   );
