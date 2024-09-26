@@ -22,10 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-src/utils/firebase.js
+# src/utils/firebase.js
 src/functions/index.js
 .firebaserc
 .npmrc
-firebase.json
-functions/index.js
-src/utils/api.js
+# firebase.json
+# functions/index.js
+# src/utils/api.js
