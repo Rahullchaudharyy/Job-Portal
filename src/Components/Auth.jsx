@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth, googleProvider, db } from '../utils/firebase';
 import { useDispatch } from 'react-redux';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 import { addUser, removeUser } from '../utils/userSlice';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
@@ -34,7 +34,7 @@ const SignIn = () => {
   
         if (userSnapshot.exists()) {
           setuserInfo(userSnapshot.data()); 
-          console.log(userSnapshot.data()); 
+          // console.log(userSnapshot.data()); 
           
         } else {
           console.log('No such user!');
@@ -77,9 +77,15 @@ const handleInputChange = (event) => {
       setLoading(false);
     }
   };
-  const HandleForgotPassword = async ()=>{
-    console.log('Password Reset logic will be there')
-  }
+  const HandleForgotPassword = async () => {
+    try {
+      await sendPasswordResetEmail(auth, formData.email);
+      alert('Password reset email sent , please check the email and reste the password');
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  
   const handleSignUp = async () => {
     setLoading(true);
     setError(null);
@@ -144,9 +150,9 @@ const handleInputChange = (event) => {
           {loading ? 'Loading...' : (isSignUp ? 'Sign Up' : 'Login')}
         </button>
 
-        <button onClick={handleGoogleSignIn} className="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors mb-4" disabled={loading}>
+        {/* <button onClick={handleGoogleSignIn} className="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors mb-4" disabled={loading}>
           Login with Google
-        </button>
+        </button> */}
 
         <button onClick={() => setIsSignUp(!isSignUp)} className="mt-4 text-blue-500 underline">
           {isSignUp ? 'Already have an account? Login' : 'Don\'t have an account? Sign Up'}

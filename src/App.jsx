@@ -12,7 +12,9 @@ import { addJobs } from "./utils/jobSlice";
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { JobPrefrence, location } = useSelector((state) => state.user) || {};
+  const { JobPrefrence, location } = useSelector((state) => state.user) || "Not recieved";
+  console.log("This is the JOb prefrence that is reciving by the app.jsx measn inn the reccomnd job ",JobPrefrence,location)
+  const {searchedJobs} = useSelector((state)=>(state.filterAndSearch)) || {}
   const jobs = useSelector((state) => state.jobs);
   const [Loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -20,9 +22,14 @@ const App = () => {
 
   const loadJobs = async () => {
     try {
+      console.log("This is job ",JobPrefrence)
       const RecomendJobs = await fetchJobs(`${JobPrefrence} ${location}`, page);
-      if (RecomendJobs.data && RecomendJobs.data.length > 0) {
+      const SearchedJobs = await fetchJobs(`${searchedJobs} ${location} `,page)
+if (RecomendJobs.data && RecomendJobs.data.length > 0) {
         dispatch(addJobs(RecomendJobs.data));
+      } else if(SearchedJobs){
+        dispatch(addJobs(searchedJobs.data))
+        console.log('This block is executed')
       }
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -39,9 +46,10 @@ const App = () => {
 
         if (userSnapshot.exists()) {
           const userData = userSnapshot.data();
-          if (!JobPrefrence && !location) {
+          console.log("USER DATA ",userData)
+          if (JobPrefrence && location) {
             dispatch(
-              addUser({ email: user.email, uid: user.uid, ...userData })
+              addUser({ email: user.email, uid: user.uid,JobPrefrence: userData.JobPrefrence,  location: userData.location,...userData })
             );
             localStorage.setItem(
               "userData",
@@ -155,17 +163,18 @@ const App = () => {
                   </Link>
                 ))
               ) : (
-                <p className="text-lg font-semibold text-gray-700">
-                  No jobs available. Or the API call limit might have been
-                  exceeded. Please inform us at
-                  <a
-                    href="mailto:rahulchaudhary9611@gmail.com"
-                    className="text-blue-600 underline hover:text-blue-800"
-                  >
-                    rahulchaudhary9611@gmail.com
-                  </a>
-                  .
-                </p>
+                // <p className="text-lg font-semibold text-gray-700">
+                //   No jobs available. Or the API call limit might have been
+                //   exceeded. Please inform us at
+                //   <a
+                //     href="mailto:rahulchaudhary9611@gmail.com"
+                //     className="text-blue-600 underline hover:text-blue-800"
+                //   >
+                //     rahulchaudhary9611@gmail.com
+                //   </a>
+                //   .
+                // </p>
+                <h1>Loading...</h1>
               )}
             </div>
           )}

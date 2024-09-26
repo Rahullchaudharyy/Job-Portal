@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   email: null,
   uid: null,
-  JobPreference: '', // Default value for JobPreference
-  location: '',      // Default value for location
+  location: '', 
+  JobPrefrence:'',     // Default value for location
 };
 
 const userSlice = createSlice({

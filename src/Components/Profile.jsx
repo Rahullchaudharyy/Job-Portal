@@ -10,7 +10,7 @@ const Profile = () => {
     name: '',
     email: '',
     location: '',
-    jobPreference: '',
+    JobPrefrence: '',
     qualification: '',
     password: ''
   });
@@ -22,7 +22,9 @@ const Profile = () => {
     const user = auth.currentUser;
     if (user) {
       const userDocRef = doc(db, 'users', user.uid);
+      // console.log(userDocRef)
       const userDoc = await getDoc(userDocRef);
+      // console.log(userDoc)
       if (userDoc.exists()) {
         const userInfo = await { uid: user.uid, ...userDoc.data() };
 
@@ -37,10 +39,15 @@ const Profile = () => {
     }
   };
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    getCurrentUserInfo();
-    
-    // Fetch user data on component mount
+    const fetchData = async () => {
+      setLoading(true);
+      await getCurrentUserInfo();
+      setLoading(false);
+    };
+    fetchData();
   }, []);
 
   const handleChange = (e) => {
@@ -58,7 +65,7 @@ const Profile = () => {
         name: userData.name,
         email: userData.email,
         location: userData.location,
-        jobPreference: userData.jobPreference,
+        jobPrefrence: userData.JobPrefrence,
         qualification: userData.qualification
       });
       setIsEditing(false);
@@ -68,7 +75,9 @@ const Profile = () => {
     }
   };
 
-  return (<>
+  return (loading ? (
+    <div>Loading profile...</div>
+  ) :<>
   
   
       <Navbar/>
@@ -142,7 +151,7 @@ const Profile = () => {
             <p className="text-gray-700 mb-2"><strong>Name:</strong> {userData.name}</p>
             <p className="text-gray-700 mb-2"><strong>Email:</strong> {userData.email}</p>
             <p className="text-gray-700 mb-2"><strong>Location:</strong> {userData.location}</p>
-            <p className="text-gray-700 mb-2"><strong>Job Preference:</strong> {userData.jobPreference}</p>
+            <p className="text-gray-700 mb-2"><strong>Job Prefrence:</strong> {userData.JobPrefrence}</p>
             <p className="text-gray-700 mb-2"><strong>Qualification:</strong> {userData.qualification}</p>
             <button onClick={() => setIsEditing(true)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition duration-300">
               Edit Profile

@@ -1,18 +1,23 @@
 import { signOut } from "firebase/auth";
 import React from "react";
 import { removeUser } from "../utils/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../utils/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect,useState } from "react";
 import { changeState } from "../utils/configSlice";
+import { setSearchedJobs } from "../utils/Filter&SearchSlice";
+import { addJobs, removeJob } from "../utils/jobSlice";
+import { fetchJobs } from "../utils/api";
 
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {searchedJobs} = useSelector((state)=>(state.filterAndSearch)) || {}
   const [ProfileDropDown, setProfileDropDown] = useState(false)
+  const [SearchInput, setSearchInput] = useState('')
 
   const handleLogout = async () => {
     try {
@@ -30,6 +35,39 @@ const Navbar = () => {
 
     dispatch(changeState())
   }
+  const HandleSearchInput = async ()=>{
+
+    try {
+  
+  
+      await dispatch(removeJob()) 
+      dispatch(setSearchedJobs(SearchInput))
+        // console.log('THE JOB HAS BEEN SEARCHED ', searchedJobs)
+      // if (SearchJobData.data && SearchJobData.data.length > 0) {
+
+      //   // dispatch(setFilteredJobs(jobData.data)); 
+  
+      //   // jobData.data.forEach((job) => {
+      //   //   const JobTitle = job.job_title || "N/A";
+      //   //   const Company_Name = job.employer_name || "N/A";
+      //   //   const JobDescription = job.job_description || "N/A";
+      //   //   const Location = job.job_country || "N/A";
+      //   //   const Salary = job.job_max_salary || "N/A";
+      //   //   const Remote_Q = job.job_is_remote ? "Yes" : "No";
+      //   //   const Apply_Link = job.job_apply_link || "N/A";
+  
+      //   //   console.log({ JobTitle, Company_Name, JobDescription, Location, Salary, Remote_Q, Apply_Link });
+      //   // });
+      // } else {
+      //   console.log("No jobs found.");
+      //   // dispatch(resetFilters());
+      // }
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+  }
+
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
@@ -60,10 +98,14 @@ const Navbar = () => {
         <Link to={'/main'} className="cursor-pointer hover:text-gray-300 transition">Recomanded Jobs</Link>
         <Link to={'/home'} onClick={handleFormState} className="cursor-pointer hover:text-gray-300 transition">Filter</Link>
         <input
+          value={SearchInput}
+          onChange={(e)=>{setSearchInput(e.target.value)}}
           type="text"
           placeholder="Search Jobs"
-          className="rounded-full p-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="rounded-full p-3 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <button onClick={HandleSearchInput} className="px-2 py-1 rounded-md text-black bg-white">Search</button>
+
       </div>
   
       <div className="relative">
@@ -80,7 +122,7 @@ const Navbar = () => {
       </div>
     </div>
   
-    <div className="flex md:hidden justify-evenly h-full items-center px-4">
+    <div className="fdispatchlex md:hidden justify-evenly h-full items-center px-4">
       <h2 className="text-xl font-semibold tracking-wide cursor-pointer">Logo</h2>
       <input
           type="text"

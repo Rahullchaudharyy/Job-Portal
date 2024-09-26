@@ -30,11 +30,11 @@ const JobFilterForm = () => {
     try {
       const jobData = await fetchJobs(formData.jobTitle + " " + formData.location + " " + formData.jobType);
   
-      console.log("Fetched job data:", jobData); 
+      // console.log("Fetched job data:", jobData); 
   
       if (jobData.data && jobData.data.length > 0) {
         dispatch(resetFilters()); 
-        console.log("Jobs being dispatched:", jobData.data);
+        // console.log("Jobs being dispatched:", jobData.data);
         dispatch(setFilteredJobs(jobData.data)); 
   
         jobData.data.forEach((job) => {
@@ -46,7 +46,7 @@ const JobFilterForm = () => {
           const Remote_Q = job.job_is_remote ? "Yes" : "No";
           const Apply_Link = job.job_apply_link || "N/A";
   
-          console.log({ JobTitle, Company_Name, JobDescription, Location, Salary, Remote_Q, Apply_Link });
+          // console.log({ JobTitle, Company_Name, JobDescription, Location, Salary, Remote_Q, Apply_Link });
         });
       } else {
         console.log("No jobs found.");
