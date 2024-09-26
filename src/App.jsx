@@ -3,7 +3,7 @@ import Navbar from "./Components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { auth, db } from "./utils/firebase";
+import { auth, db } from "./utils/firebase.js";
 import { addUser, removeUser } from "./utils/userSlice";
 import { doc, getDoc } from "firebase/firestore";
 import { fetchJobs } from "./utils/api";

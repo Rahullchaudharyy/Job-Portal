@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth, googleProvider, db } from '../utils/firebase';
+import { auth, googleProvider, db } from '../utils/firebase.js';
 import { useDispatch } from 'react-redux';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 import { addUser, removeUser } from '../utils/userSlice';

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../utils/firebase';
+import { auth } from '../utils/firebase.js';
 import { onAuthStateChanged } from 'firebase/auth';
 import JobFilterForm from './JobFilterForm';
 import { useSelector } from 'react-redux';
