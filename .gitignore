@@ -29,3 +29,4 @@ src/functions/index.js
 # firebase.json
 # functions/index.js
 # src/utils/api.js
+.env

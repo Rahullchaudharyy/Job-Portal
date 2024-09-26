@@ -8,13 +8,13 @@ import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWith
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDnr5NgC5st1K8Z8qRf9tjr58a9s7iRy0Y",
-  authDomain: "job-portal-661f9.firebaseapp.com",
-  projectId: "job-portal-661f9",
-  storageBucket: "job-portal-661f9.appspot.com",
-  messagingSenderId: "794632187896",
-  appId: "1:794632187896:web:30a6c06885f049e993700d",
-  measurementId: "G-E42F30B8D6",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.authDomain,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId:process.env.MESSAGE_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.measurementId,
 };
 
 // Initialize Firebase
