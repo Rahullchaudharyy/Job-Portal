@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { auth, db } from '../utils/firebase.js'; // Adjust the path as necessary
+// import { auth, db } from '../utils/firebase.js'; // Adjust the path as necessary
+import { auth,db } from '../utils/firebase.js';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
