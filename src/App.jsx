@@ -13,7 +13,7 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { JobPrefrence, location } = useSelector((state) => state.user) || "Not recieved";
-  console.log("This is the JOb prefrence that is reciving by the app.jsx measn inn the reccomnd job ",JobPrefrence,location)
+  // console.log("This is the JOb prefrence that is reciving by the app.jsx measn inn the reccomnd job ",JobPrefrence,location)
   const {searchedJobs} = useSelector((state)=>(state.filterAndSearch)) || {}
   const jobs = useSelector((state) => state.jobs);
   const [Loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ const App = () => {
 
   const loadJobs = async () => {
     try {
-      console.log("This is job ",JobPrefrence)
+      // console.log("This is job ",JobPrefrence)
       const RecomendJobs = await fetchJobs(`${JobPrefrence} ${location}`, page);
       const SearchedJobs = await fetchJobs(`${searchedJobs} ${location} `,page)
 if (RecomendJobs.data && RecomendJobs.data.length > 0) {
@@ -46,7 +46,7 @@ if (RecomendJobs.data && RecomendJobs.data.length > 0) {
 
         if (userSnapshot.exists()) {
           const userData = userSnapshot.data();
-          console.log("USER DATA ",userData)
+          // console.log("USER DATA ",userData)
           if (JobPrefrence && location) {
             dispatch(
               addUser({ email: user.email, uid: user.uid,JobPrefrence: userData.JobPrefrence,  location: userData.location,...userData })
