@@ -123,9 +123,9 @@ const handleInputChange = (event) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">{isSignUp ? 'Sign Up' : 'Login'}</h2>
+    <div className="flex  items-center justify-center h-screen ">
+      <div className="bg-white h-full flex flex-col justify-center lg:px-40 w-full md:w-[50%] p-8 ">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">{isSignUp ? 'Sign Up to the Job Portal ' : 'Login'}</h2>
         
         {error && <div className="text-red-500 mb-4">{error}</div>}
         
@@ -157,6 +157,12 @@ const handleInputChange = (event) => {
         <button onClick={() => setIsSignUp(!isSignUp)} className="mt-4 text-blue-500 underline">
           {isSignUp ? 'Already have an account? Login' : 'Don\'t have an account? Sign Up'}
         </button>
+      </div>
+      <div 
+        style={{ backgroundImage: "url('https://c4.wallpaperflare.com/wallpaper/274/712/957/smooth-silky-colorful-cgi-wallpaper-preview.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }} 
+
+       className='w-[50%] h-full hidden md:flex'>
+
       </div>
     </div>
   );

@@ -20,23 +20,25 @@ const App = () => {
   const [page, setPage] = useState(1);
   const observer = useRef();
 
-  const loadJobs = async () => {
-    try {
-      // console.log("This is job ",JobPrefrence)
-      const RecomendJobs = await fetchJobs(`${JobPrefrence} ${location}`, page);
-      const SearchedJobs = await fetchJobs(`${searchedJobs} ${location} `,page)
-if (RecomendJobs.data && RecomendJobs.data.length > 0) {
-        dispatch(addJobs(RecomendJobs.data));
-      } else if(SearchedJobs){
-        dispatch(addJobs(searchedJobs.data))
-        console.log('This block is executed')
+const loadJobs = async () => {
+  try {
+    if (searchedJobs) {
+      const SearchedJobs = await fetchJobs(`${searchedJobs} ${location}`, page);
+      if (SearchedJobs.data && SearchedJobs.data.length > 0) {
+        dispatch(addJobs(SearchedJobs.data));
       }
-    } catch (error) {
-      console.error("Error fetching jobs:", error);
-    } finally {
-      setLoading(false);
+    } else {
+      const RecomendJobs = await fetchJobs(`${JobPrefrence} ${location}`, page);
+      if (RecomendJobs.data && RecomendJobs.data.length > 0) {
+        dispatch(addJobs(RecomendJobs.data));
+      }
     }
-  };
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -46,22 +48,23 @@ if (RecomendJobs.data && RecomendJobs.data.length > 0) {
 
         if (userSnapshot.exists()) {
           const userData = userSnapshot.data();
-          // console.log("USER DATA ",userData)
-          if (JobPrefrence && location) {
-            dispatch(
-              addUser({ email: user.email, uid: user.uid,JobPrefrence: userData.JobPrefrence,  location: userData.location,...userData })
-            );
-            localStorage.setItem(
-              "userData",
-              JSON.stringify({ email: user.email, uid: user.uid, ...userData })
-            );
-            loadJobs();
-            navigate("/main");
-          } else {
-            console.log("User already exists in Redux store.");
-            navigate("/main");
-          }
+          dispatch(
+            addUser({
+              email: user.email,
+              uid: user.uid,
+              JobPrefrence: userData.JobPrefrence,
+              location: userData.location,
+              ...userData,
+            })
+          );
+          localStorage.setItem(
+            "userData",
+            JSON.stringify({ email: user.email, uid: user.uid, ...userData })
+          );
+          loadJobs(); 
+          navigate("/main");
         }
+        
       } else {
         console.log("User is not logged in");
         dispatch(removeUser());
@@ -76,7 +79,7 @@ if (RecomendJobs.data && RecomendJobs.data.length > 0) {
   useEffect(() => {
     if (Loading) return;
     loadJobs();
-  }, [Loading]);
+  }, [JobPrefrence, searchedJobs, location, page, Loading]);
 
   useEffect(() => {
     const loadMoreJobs = (entries) => {
