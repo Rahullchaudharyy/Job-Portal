@@ -6,7 +6,7 @@ export const fetchJobs = async (query) => {
     url: 'https://jsearch.p.rapidapi.com/search', 
     params: { query: query, page: '1', num_pages: '1' },  
     headers: {
-      'x-rapidapi-key': '88569e1eaemsh397027cbdf4c1c6p134920jsn1524fb825cff',
+      'x-rapidapi-key': 'c4ed9d0b82mshcb3ea468c023248p131d2cjsn0722ca666692',
       'x-rapidapi-host': 'jsearch.p.rapidapi.com'
     }
        // headers: {
