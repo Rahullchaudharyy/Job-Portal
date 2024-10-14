@@ -65,7 +65,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="h-[60px] z-[99] fixed w-full bg-gray-950 text-white p-10 shadow-lg">
+    <div className="h-[60px] z-[99]  w-full bg-gray-950 text-white p-10 shadow-lg">
       <div className="hidden md:flex justify-between h-full items-center px-6">
         <div className="flex items-center space-x-4">
           <h2 className="text-2xl font-semibold tracking-wide cursor-pointer hover:text-gray-300 transition">

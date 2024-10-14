@@ -36,7 +36,7 @@ const Jobs = () => {
   
   <Navbar/>
   
-    <div className="job-detail min-h-screen max-h-auto w-full bg-yellow-500 flex flex-col justify-center items-center p-6 md:p-12">
+    <div className="job-detail min-h-screen max-h-auto w-full flex flex-col justify-center items-center p-6 md:p-12">
     <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-full">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">{JobDetail.job_title}</h1>
       <h2 className="text-xl font-semibold text-gray-700 mb-2">{JobDetail.employer_name}</h2>
